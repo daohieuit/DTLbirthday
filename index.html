@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon_io/favicon-16x16.png">
+    <link rel="icon" href="images/favicon_io/favicon.ico">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Yellowtail&display=swap" rel="stylesheet">
+    <!-- css -->
+    <style>
+        /* Đặt lại các kiểu cho tất cả các phần tử */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            background-color: #96D6FF; /* Màu nền */
+        }
+
+        .web_title {
+            font-family: "Great Vibes", cursive;
+            font-size: 20px;
+            font-weight: 200;
+            color: #fff;
+            text-align: center;
+            margin: 15px auto;
+        }
+
+        .birthday_img {
+            text-align: center;
+        }
+
+        .birthday_img img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn_container {
+            text-align: center;
+            margin: 15px auto;
+        }
+
+        button {
+            font-size: 17px;
+            padding: 0.5em 2em;
+            border: none;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            background: #ff96bc;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, rgba(255, 150, 118, 1) 0%, rgba(255, 150, 218, 1) 100%);
+        }
+
+        button:active {
+            transform: translateY(0.2em);
+        }
+
+        .slide_show {
+            max-width: 50%;
+            height: 774px;
+            text-align: center;
+            margin: 10px auto;
+            overflow: hidden;
+            border-radius: 30px;
+            display: none; /* Ẩn slideshow ban đầu */
+            opacity: 0; /* Ẩn hoàn toàn */
+            transform: translateY(50px); /* Dịch xuống dưới 50px */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Hiệu ứng mượt khi thay đổi */
+        }
+
+        /* Khi slideshow được kích hoạt */
+        .slide_show.show {
+            display: block; /* Hiển thị slideshow khi có lớp .show */
+            opacity: 1; /* Hiển thị hoàn toàn */
+            transform: translateY(0); /* Trả về vị trí ban đầu */
+            pointer-events: all; /* Cho phép tương tác */
+        }
+
+        .wish {
+            transition: margin-top 0.5s ease; /* Hiệu ứng mượt khi thay đổi khoảng cách */
+            margin: 100px auto 20px; /* Đặt ban đầu khi chưa nhấn nút */
+        }
+
+        /* Khi slideshow hiển thị, wish sẽ di chuyển lên */
+        .wish.active {
+            margin-top: 20px; /* Kéo phần .wish lên */
+        }
+
+        .slides {
+            display: flex;
+            max-width: 100%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            cursor: grab;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Ẩn thanh cuộn trong Firefox */
+        }
+
+        .slides::-webkit-scrollbar { /* Ẩn thanh cuộn trong Chrome */
+            display: none;
+        }
+
+        .slide_item {
+            min-width: 100%;
+            aspect-ratio: 2 / 3;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 2rem;
+            scroll-snap-align: start;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .wish {
+            font-family: "Yellowtail", cursive;
+            color: #FFFFC5;
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .wish p {
+            font-family: "Great Vibes", cursive;
+        }
+
+
+        @media only screen and (min-width: 1024px) {
+            .slide_show{
+                border-radius: 0px;
+            }
+        }
+        
+        /* Responsive cho các thiết bị nhỏ hơn 768px */
+        @media only screen and (max-width: 1023px) {
+            .web_title {
+                font-size: 18px; /* Giảm kích thước tiêu đề */
+            }
+
+            .slide_show {
+                max-width: 80vw; /* Mở rộng chiều rộng cho slideshow */
+                height: calc(80vw * 1.5); /* Tính chiều cao dựa trên chiều rộng */
+                margin: 20px auto 15px; /* Đặt lại lề */
+            }
+
+            .slides {
+                width: 100%; /* Đảm bảo slides có chiều rộng 100% */
+                height: 100%; /* Đảm bảo slides có chiều cao 100% */
+            }
+
+            .slide_item {
+                width: 100%; /* Đảm bảo mỗi slide có chiều rộng 100% */
+                height: 100%; /* Đảm bảo mỗi slide có chiều cao 100% */
+                object-fit: cover; /* Giữ tỷ lệ cho hình ảnh */
+                
+            }
+
+            .wish {
+                margin: 80px auto 20px; /* Giảm khoảng cách cho phần wish */
+                transition: margin-top 0.5s ease; /* Hiệu ứng chuyển động mượt */
+                font-size: 20px; /* Giảm kích thước chữ cho phần wish */
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            /* Responsive cho các thiết bị di động nhỏ hơn 480px */
+            .web_title {
+                font-size: 16px; /* Giảm kích thước tiêu đề thêm */
+            }
+
+            .wish {
+                font-size: 18px; /* Giảm kích thước chữ cho phần wish */
+            }
+        }
+    </style>
+    <title>Dam Linh's Birthday</title>
+</head>
+<body>
+    <div class="web_title">
+        <h2>Dam Linh's Birthday</h2>
+    </div>
+    <div class="birthday_img">
+        <a href="ht.html"><img src="images/bgnonbg.png" alt="png_background"></a>
+    </div>
+
+    <div class="btn_container">
+        <button id="hitMeButton"> Triệu hồi công chúa </button>   
+    </div>
+
+    <!-- Slideshow -->
+    <div class="slide_show" id="slideshow">
+        <div class="slides">
+            <img class="slide_item" src="images/1.JPG" alt="img1" >
+            <img class="slide_item" src="images/2.JPG" alt="img2" >
+            <img class="slide_item" src="images/3.JPG" alt="img3" >
+            <img class="slide_item" src="images/4.JPG" alt="img4" >
+        </div>
+    </div>
+
+    <div class="wish" id="wish">
+        <h4> WISH YOU ALL THE BEST </h4>
+        <p>Chúc cho ngày đặc biệt của Em luôn tràn ngập tình yêu, niềm vui và hạnh phúc.</p>
+        <p>Hãy tận hưởng từng khoảnh khắc, vì hôm nay là ngày dành riêng cho Em.</p>
+        <p>Chúc mừng sinh nhật!</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const wrapper = document.querySelector('.slides');
+        const sliders = document.querySelectorAll('.slide_item');
+    
+        let pressed = false;
+        let startX = 0;
+        let scrollLeft = 0;
+    
+        wrapper.addEventListener('mousedown', function (e) {
+            pressed = true;
+            startX = e.clientX;
+            scrollLeft = wrapper.scrollLeft;
+            this.style.cursor = 'grabbing';
+        });
+    
+        wrapper.addEventListener('mouseleave', function () {
+            pressed = false;
+        });
+    
+        window.addEventListener('mouseup', function () {
+            if (!pressed) return;
+            pressed = false;
+            wrapper.style.cursor = 'grab';
+            snapToClosest();  // Snap to the closest slider
+        });
+    
+        wrapper.addEventListener('mousemove', function (e) {
+            if (!pressed) return;
+            e.preventDefault();
+            const x = e.clientX - startX;
+            wrapper.scrollLeft = scrollLeft - x;
+        });
+    
+        // Thêm sự kiện cho con lăn chuột
+        wrapper.addEventListener('wheel', function(e) {
+            e.preventDefault(); // Ngăn chặn hành vi cuộn mặc định
+            const sliderWidth = sliders[0].offsetWidth;
+            
+            // Kiểm tra hướng cuộn
+            if (e.deltaY > 0) {
+                // Cuộn xuống, di chuyển đến slide tiếp theo
+                wrapper.scrollBy({
+                    left: sliderWidth,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Cuộn lên, di chuyển đến slide trước đó
+                wrapper.scrollBy({
+                    left: -sliderWidth,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    
+        function snapToClosest() {
+            const sliderWidth = sliders[0].offsetWidth;  // Lấy chiều rộng của một slider
+            const scrollPos = wrapper.scrollLeft;
+            const closestIndex = Math.round(scrollPos / sliderWidth);  // Tìm slider gần nhất
+            wrapper.scrollTo({
+                left: closestIndex * sliderWidth,
+                behavior: 'smooth'
+            });
+        }
+    
+        document.getElementById("hitMeButton").addEventListener("click", function() {
+            var slideshow = document.getElementById("slideshow");
+            var wish = document.getElementById("wish");
+    
+            // Kiểm tra nếu slideshow chưa hiển thị
+            if (!slideshow.classList.contains("show")) {
+                slideshow.classList.add("show");  // Thêm lớp để hiển thị
+                wish.classList.add("active");     // Kéo phần .wish lên
+            } else {
+                slideshow.classList.remove("show"); // Ẩn slideshow
+                wish.classList.remove("active");    // Đẩy phần .wish xuống
+            }
+        });
+    </script>
+</body>
+</html>
